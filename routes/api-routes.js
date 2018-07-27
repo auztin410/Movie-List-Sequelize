@@ -47,4 +47,23 @@ app.put("/api/watched/", function(req, res){
         res.json(res);
     });
 });
+
+app.get("/api/search/:movie", function(req, res){
+    var searchMovie = req.params.movie;
+    var jsonData;
+    var queryUrl = "http://www.omdbapi.com/?t=" + searchMovie + "&y=&plot=short&apikey=trilogy";
+
+    requestAnimationFrame(queryUrl, function(err, res, body){
+        jsonData = JSON.parse(body);
+        res.send(jsonData);
+    });
+});
+
+app.post("/api/search/add", function(req, res){
+    db.movies.create({
+        name: req.body.name
+    }).then(function(res){
+        res.end();
+    });
+});
 }
